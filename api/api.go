@@ -18,6 +18,15 @@ func (api *API) GetRouter() http.Handler {
 //RegisterRoutes ...
 func (api *API) RegisterRoutes() {
 	r := chi.NewRouter()
-
+	r.Mount("/rpsw", api.rpswGameRouter())
 	api.router = r
+}
+
+// rpswGameRouter ...
+func (api *API) rpswGameRouter() http.Handler {
+	r := chi.NewRouter()
+
+	r.Post("/play", api.playRPSW)
+
+	return r
 }
