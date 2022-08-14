@@ -18,15 +18,13 @@ func (api *API) GetRouter() http.Handler {
 //RegisterRoutes ...
 func (api *API) RegisterRoutes() {
 	r := chi.NewRouter()
-	r.Mount("/rpsw", api.rpswGameRouter())
+	r.Mount("/rpsw", api.rpswGameHandler())
 	api.router = r
 }
 
-// rpswGameRouter ...
-func (api *API) rpswGameRouter() http.Handler {
+// rpswGameHandler is responsible for handling all rock-paper-scissors-well-game related endpoints
+func (api *API) rpswGameHandler() http.Handler {
 	r := chi.NewRouter()
-
 	r.Post("/play", api.playRPSW)
-
 	return r
 }

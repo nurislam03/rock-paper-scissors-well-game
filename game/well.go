@@ -4,7 +4,7 @@ type Well struct {
 }
 
 func (_ Well) Name() string {
-	return "paper"
+	return "well"
 }
 
 func (w Well) Beats(c Character) string {
