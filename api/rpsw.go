@@ -3,19 +3,20 @@ package api
 import (
 	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
-	"rpsw/model"
 	"rpsw/utils"
 	"strings"
-	"time"
 )
+
+type playRockPaperScissorsWellReqBody struct {
+	Move string `json:"move"`
+}
 
 // playRPSW accepts a user request with a game move and response back the result of the game
 func (api *API) playRPSW(w http.ResponseWriter, r *http.Request) {
 	log.Println("Entered into playRPSW function")
 
-	var usersChoice model.PlayRockPaperScissorsWellReqBody
+	var usersChoice playRockPaperScissorsWellReqBody
 
 	// parse user's choice from request body
 	err := utils.ParseBody(r, &usersChoice)
@@ -24,38 +25,20 @@ func (api *API) playRPSW(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate user's choice
-	isValidChoice := validateGameChoice(usersChoice.Move)
+	isValidChoice := validateGameCharacter(usersChoice.Move)
 	if !isValidChoice {
 		log.Println("isValidChoice: ", isValidChoice)
 		json.NewEncoder(w).Encode("invalid move")
 		return
 	}
 
-	// computer's choice for the game
-	computersChoice := computersMove()
-
-	// todo: result
-
 	//w.Write([]byte("Getting POST index route!"))
 }
 
-func computersMove() string {
-	// game choice
-	choices := []string{"rock", "paper", "scissors", "well"}
-
-	rand.Seed(time.Now().UnixNano())
-	randNumber := rand.Intn(4)
-
-	return choices[randNumber]
-}
-
-// validateGameChoice validates weather a specific move is valid or not
-func validateGameChoice(usersChoice string) bool {
+// validateGameCharacter validates weather a specific character selection is valid or not
+func validateGameCharacter(usersChoice string) bool {
 	// game choice
 	choices := map[string]bool{"rock": true, "paper": true, "scissors": true, "well": true}
 	uChoice := strings.ToLower(usersChoice)
-
 	return choices[uChoice]
 }
-
-
