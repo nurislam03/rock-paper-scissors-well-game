@@ -59,8 +59,7 @@ func (api *API) playRPSW(w http.ResponseWriter, r *http.Request) {
 
 // validateGameCharacter validates weather a specific character selection is valid or not
 func validateGameCharacter(usersChoice string) bool {
-	// game choice
-	choices := map[string]bool{"rock": true, "paper": true, "scissors": true, "well": true}
+	choices := map[string]bool{"rock": true, "paper": true, "scissors": true, "well": true} // valid characters
 
 	uChoice := strings.ToLower(usersChoice)
 	return choices[uChoice]
