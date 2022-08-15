@@ -9,19 +9,31 @@ Game rules:
 
 ### Test
 To run the tests, run the following commands:
-
-- `go test ./...`
+```sh
+$ go test ./...
+  ```
 
 ### Run
 
 To run the service, run the following commands:
-
-- `go build`
-- `go run main.go`
+```sh
+$ go build
+$ go run main.go
+  ```
 
 ### Run with Docker Compose
 To run the service from docker compose, run the following commands:
-
-- `docker-compose up`
-
+```sh
+$ docker-compose up
+   ```
 the application will be running on http://localhost:8080
+
+
+#### Available Endpoint (e.g. cURL)
+```sh
+curl --location --request POST 'http://localhost:8080/rpsw/play' \
+--header 'Content-Type: application/json' \
+--data-raw '{"move": "well"}'
+   ```
+
+### Thanks
