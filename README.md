@@ -7,10 +7,21 @@ Game rules:
 - Rock beats scissors 
 - Well beats rock and scissors
 
+### Test
+To run the tests, run the following commands:
 
-### Getting started
+- `go test ./...`
+
+### Run
 
 To run the service, run the following commands:
 
 - `go build`
 - `go run main.go`
+
+### Run with Docker Compose
+To run the service from docker compose, run the following commands:
+
+- `docker-compose up`
+
+the application will be running on http://localhost:8080
