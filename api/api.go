@@ -10,6 +10,16 @@ type API struct {
 	router chi.Router
 }
 
+// NewAPI ...
+func NewAPI() *API {
+	api := &API{
+		router: chi.NewRouter(),
+	}
+
+	api.RegisterRoutes()
+	return api
+}
+
 //GetRouter ...
 func (api *API) GetRouter() http.Handler {
 	return api.router

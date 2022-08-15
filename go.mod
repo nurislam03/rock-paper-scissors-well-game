@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/go-chi/chi v1.5.4
+	github.com/kinbiko/jsonassert v1.1.0
 	github.com/stretchr/testify v1.8.0
 )
 

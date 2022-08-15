@@ -1,10 +1,55 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
+	"github.com/kinbiko/jsonassert"
 	"github.com/stretchr/testify/assert"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
+func testTemplateForTestPlayRPSW(t *testing.T, api *API, testName string, buf *bytes.Buffer, code int, result string) {
+	t.Run(testName, func(t *testing.T) {
+		req := httptest.NewRequest(http.MethodPost, "/rpsw/play", buf)
+		res := httptest.NewRecorder()
+		api.router.ServeHTTP(res, req)
+		assert.Equal(t, code, res.Code)
+		jsonassert.New(t).Assertf(res.Body.String(), result)
+	})
+}
+
+func TestPlayRPSW(t *testing.T) {
+	api := NewAPI()
+	testCases := []struct {
+		name    string
+		reqBody playRockPaperScissorsWellReqBody
+		code    int
+		resp    string
+	}{
+		{
+			name:    "successfully play considering no errors occurs",
+			reqBody: playRockPaperScissorsWellReqBody{"rock"},
+			code:    http.StatusOK,
+			resp:    `{"data": {"user_move": "rock","computer_move": "<<PRESENCE>>","user_result":"<<PRESENCE>>"}}`,
+		},
+		{
+			name:    "invalid user move",
+			reqBody: playRockPaperScissorsWellReqBody{"rocks"},
+			code:    http.StatusUnprocessableEntity,
+			resp:    `{"error_message": "invalid move"}`,
+		},
+	}
+
+	for _, tc := range testCases {
+		var buf bytes.Buffer
+		_ = json.NewEncoder(&buf).Encode(tc.reqBody)
+		testTemplateForTestPlayRPSW(t, api, tc.name, &buf, tc.code, tc.resp)
+	}
+}
+
+// testTemplate for TestValidateGameCharacter
 func testTemplate(t *testing.T, testName, input string, result bool) {
 	t.Run(testName, func(t *testing.T) {
 		assert.Equal(t, result, validateGameCharacter(input))
